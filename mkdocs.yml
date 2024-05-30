@@ -1,1 +1,3 @@
 site_name: CS-Diary
+theme:
+  name: material

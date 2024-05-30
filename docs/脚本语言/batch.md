@@ -7,3 +7,30 @@
 （链接以php结尾，php也可能是时代的眼泪吧）  
 一点点的罗列知识点是过于乏味的，我想通过一个个的尝试来加深对这个事物的认知。所有看到本文的人都能够一起动手尝试。  
 环境和工具：Windows操作系统。  
+
+**官方资料: [CMD文档](https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/windows-commands)**  
+
+## Try1 Hello, World!
+
+***梦开始的地方***
+
+首先，创建一个txt文件(最好用英文路径，不过windows中文支持挺好的?)，在里面复制如下代码。  
+```bat
+@echo off
+echo Hello, world!
+pause
+```
+
+然后，将txt的后缀改成bat，鼠标双击运行可以看到
+```
+Hello, world!
+请按任意键继续. . .
+```
+
+自主查阅资料思考问题：
+
+- 问题1：`@echo off`删去后会怎样？
+- 问题2：windows和Linux的`echo`有什么区别？
+- 问题3：`pause`有什么作用？
+
+## Try2 
