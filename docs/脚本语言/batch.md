@@ -22,15 +22,154 @@ pause
 ```
 
 然后，将txt的后缀改成bat，鼠标双击运行可以看到
-```
+```txt
 Hello, world!
 请按任意键继续. . .
 ```
 
-自主查阅资料思考问题：
+查阅资料思考问题：
 
-- 问题1：`@echo off`删去后会怎样？
-- 问题2：windows和Linux的`echo`有什么区别？
-- 问题3：`pause`有什么作用？
+- `@echo off`删去后会怎样？
+- windows和Linux的`echo`有什么区别？
+- `pause`有什么作用？
 
-## Try2 
+## Try2 一个编译运行脚本
+
+在windows系统中，有很多的IDE(Integrated Development Environment，集成开发环境)。比如我们在编写C++程序的时候，集成开发环境比如说Jetbrains家的Clion，微软的Visual Studio，或者简陋一点的Dev C++，它们都提供了一键编译的GUI。另外，虽然Vscode并不是IDE，不过内置的插件可以帮你完成这些步骤。但是如果我们回归到最朴素的样子，这里有一个编辑工具(比方说，gVim，Vscode，甚至是记事本，这里笔者用的Vscode)，并且有某种语言的编译器，或者说解释器，我们要在这个基础上编写一个功能脚本，实现一系列的操作帮我们减少重复劳动，提高工作效率。  
+
+查阅资料思考问题：
+
+- “环境变量”是什么意思，它的本质是什么？
+- 如何添加环境变量？（Linux添加环境变量和Windows添加环境变量）
+- 当前工作目录是什么？
+- C程序和Python中的相对路径是以什么为基准？
+
+假设文件目录是这样的
+
+```
+./
+../
+run.bat
+C++/
+    a.exe
+    in.txt
+    ok.cpp
+    out.txt
+    std_out.txt
+```
+> 笔者喜欢打[codeforces](https://codeforces.com/)所以编写了下面的脚本。  
+> 下面是一段脚本，它首先切换到源代码所在目录C++/编译运行filename中设置的源代码文件，编译运行得到从in.txt中读入数据，运行输出到out.txt，并且和答案的std_out.txt进行比较，如果编译失败或者是答案错误会输出FAIL，否则输出OK。这个脚本还支持两个选项，-i忽略和答案的比较，-n取消编译，只运行。
+> 运行这个脚本需要将编译设置到环境变量，Windows一般是MinGW。
+
+`说教是无力的，自主查阅资料的过程收获颇丰`
+
+一些需要的知识:
+- bat脚本中，cd，set等命令的含义和用法。
+- 如何获取传给脚本的参数？
+- 如何获取上一条命令的返回值？
+- 标准输入输出重定向为文件
+- bat脚本字符的处理。
+
+
+```bat
+@echo off
+cd C++
+
+set filename=ok.cpp
+set date=%DATE:~0,10%
+set time=%TIME:~0,8%
+echo System time %date% at %time% 
+
+for /f "tokens=1-3 delims=/- " %%i in ("%date%")do set/a y=%%i,m=%%j,d=%%k
+set date=%y%/%m%/%d%
+
+if "%1" neq "-n" (
+    echo ***start to complile***
+    
+    g++ -Wall %filename% -o a.exe -O2
+    
+    for /f "tokens=1,2 delims= " %%a in ('forfiles /m a.exe /c "cmd /c echo @fdate @ftime"') do (
+        if "%%a" neq "%date%" (
+            echo ***fail to complie***
+            goto ERROR
+        )
+        if "%%b" lss "%time%" (
+            echo ***fail to complie***
+            goto ERROR
+        )
+    )
+    echo ***complied successfully***
+)
+echo ***begin to run***
+a <in.txt> out.txt
+
+echo ***finsih running***
+
+if "%1" == "-i" (
+    goto YES
+)
+
+fc /w out.txt std_out.txt
+
+if %Errorlevel% == 0 (
+:YES
+    echo   ___  _   __
+    echo  / _ \^| ^| / /
+    echo ^| ^| ^| ^| ^|/ / 
+    echo ^| ^| ^| ^|   ^<  
+    echo ^| ^|_^| ^| ^|\ \ 
+    echo  \___/^|_^| \_\
+if "%1" == "-i" (
+    goto EOF
+)
+) else (
+:ERROR
+echo  ______      _____ _      
+echo ^|  ____/\   ^|_   _^| ^|     
+echo ^| ^|__ /  \    ^| ^| ^| ^|     
+echo ^|  __/ /\ \   ^| ^| ^| ^|     
+echo ^| ^| / ____ \ _^| ^|_^| ^|____ 
+echo ^|_^|/_/    \_\_____^|______^|
+                           
+                          
+)
+:EOF
+
+```
+运行的效果类似
+```
+System time 2024/06/03 at 21:24:45
+***start to complile***
+***complied successfully***
+***begin to run***
+***finsih running***
+正在比较文件 out.txt 和 STD_OUT.TXT
+FC: 找不到差异
+
+  ___  _   __
+ / _ \| | / /
+| | | | |/ / 
+| | | |   <  
+| |_| | |\ \ 
+ \___/|_| \_\
+```
+
+
+回到正文，笔者在尝试的时候遇到很多问题，看似简单的脚本。读者可以自己去尝试的写写类似的脚本试试。在使用g++编译的时候，笔者发现，就算是编译失败后，终端获取的命令的返回值仍然是0，所以只能比较当前终端开始的时间和文件上次更新的时间，因为当g++编译失败的时候不会去更新已经编译的exe文件。windows系统本身的以GUI为主，所以脚本命令相对Linux而言功能弱一些，但是提供的API也是很多的，功能也足够强大。注意了，一个零碎的小知识点，类似Linux的man命令可以查看各个选项(在windows里面不叫“选项”叫“开关”)，比如，我们查看set的选项可以在cmd窗口内键入`set /?`，即可查看相关选项的含义了，这个应该是DOS系统留下来的传统，之前笔者在摆弄DOSBOX的DEBUG工具的时候也是类似的。读者可能觉得这样编译不麻烦吗？其实也不麻烦，把Vscode设置成文件自动保存（不然编译的是旧文件）后，按``Ctrl + ` ``就能打开终端，一般是powershell，键入./run.bat，如果有历史记录的话可按方向上键，回车即可运行。  
+
+那个OK字符是我用网站生成的，有需要的可以用  
+[字符画生成网站](https://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20)
+
+推荐查阅：
+
+- forfiles的使用方法
+- for的使用方法
+
+留作读者思考:
+
+- 使用Windows原生的Command Prompt(CMD)和Powershell运行bat脚本有什么区别？
+- 为什么笔者没有选择打印彩色字，而是使用字符画打印。
+- echo里面的`^`符号的作用是什么呢？
+
+
+> 生活不只有用之用，无用之用亦为美
