@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../../%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Vim/">
       
       
-        <link rel="next" href="../../%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/OS/">
+        <link rel="next" href="../../%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/bash/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Vim - CS-Diary</title>
+        <title>前言 - CS-Diary</title>
       
     
     
@@ -61,6 +61,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -93,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Vim
+              前言
             
           </span>
         </div>
@@ -203,19 +208,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -229,7 +232,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             工具使用
@@ -240,17 +243,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Vim/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -259,7 +255,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -276,17 +271,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -300,7 +297,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             理论知识
@@ -311,10 +308,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86/OS/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -323,6 +329,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -436,6 +443,8 @@
   
   
   
+    
+  
   
 </nav>
                   </div>
@@ -450,13 +459,85 @@
                   
 
 
-  <h1>Vim</h1>
-
+<h1 id="_1">前言</h1>
+<p>操作系统学习心历程。笔者学习了一下<a href="https://pdos.csail.mit.edu/6.828/2023/schedule.html"><strong>MIT6.1810</strong></a>。 </p>
+<h1 id="_2">心路历程</h1>
+<h2 id="_3">页表与虚拟地址</h2>
+<p>MIT6.1810的Lab3是关于页表和虚拟地址的。有一个困惑，比如这样一个简单的C语言程序，它是如何从虚拟地址0x0001处找到数的呢？</p>
+<pre><code class="language-c">int main() {
+    int p = *((int *)0x0001);
+    return 0;
+}
+</code></pre>
+<p>课程手册book-riscv-rev3中说明</p>
 <blockquote>
-<p>《太空漫游2001》中，古猿将骨头抛向空中欢呼的瞬间，骨头变成了太空中的空间站。二者本质并没有什么不同不是吗？古猿用骨来制作工具，捕获猎物，人类使用空间站去探索宇宙，在巨大的智慧(假设存在)下，人类和古猿并无二致，沉浸在使用自己的小智慧所创造的工具的喜悦中。  </p>
-<p>计算机的学习很多时候是在学习新的工具，工具种类繁多，如果要求深入理解所有工具的底层那是需要耗费巨大的功夫的，很多时候都是边学边用，把玩一个黑盒子那样去尝试，在使用的过程中逐渐理解本质。</p>
+<p>As a reminder, RISC-V instructions (both user and kernel) manipulate virtual addresses.  </p>
 </blockquote>
-<p>Vim是Vi的升级，gVim用于图形化界面的情况（有Windows版本，但是用起来感觉差些意思，不如Linux平台）。NeoVim和Vim的设计观念有些不同，可能更像Vscode一些？笔者并没有用过NeoVim不作评价，它使用Lua语言配置而不是Vim原生的Vimscript。  </p>
+<p>RISC-V的指令不管是用户态还是内核态操作的均是虚拟地址。使用objdump工具分析一下程序的汇编看看。下面是x86的汇编，没有交叉编译用RISC-V。  </p>
+<pre><code class="language-asm">0000000000001129 &lt;main&gt;:
+    1129:       f3 0f 1e fa             endbr64
+    112d:       55                      push   %rbp
+    112e:       48 89 e5                mov    %rsp,%rbp
+    1131:       b8 01 00 00 00          mov    $0x1,%eax
+    1136:       8b 00                   mov    (%rax),%eax
+    1138:       89 45 fc                mov    %eax,-0x4(%rbp)
+    113b:       b8 00 00 00 00          mov    $0x0,%eax
+    1140:       5d                      pop    %rbp
+    1141:       c3                      retq
+    1142:       66 2e 0f 1f 84 00 00    nopw   %cs:0x0(%rax,%rax,1)
+    1149:       00 00 00
+    114c:       0f 1f 40 00             nopl   0x0(%rax)
+</code></pre>
+<p>把取数的那一行注释掉之后。</p>
+<pre><code class="language-asm">0000000000001129 &lt;main&gt;:
+    1129:       f3 0f 1e fa             endbr64
+    112d:       55                      push   %rbp
+    112e:       48 89 e5                mov    %rsp,%rbp
+    1131:       b8 00 00 00 00          mov    $0x0,%eax
+    1136:       5d                      pop    %rbp
+    1137:       c3                      retq
+    1138:       0f 1f 84 00 00 00 00    nopl   0x0(%rax,%rax,1)
+    113f:       00
+</code></pre>
+<p>可以观察发现多了三行</p>
+<pre><code class="language-asm">    1131:       b8 01 00 00 00          mov    $0x1,%eax
+    1136:       8b 00                   mov    (%rax),%eax
+    1138:       89 45 fc                mov    %eax,-0x4(%rbp)
+</code></pre>
+<p>查阅资料或者问大模型可以知道这段汇编代码的含义，不赘述，rax，eax和ax是同一64位寄存器的不同部分。在Linux/Unix环境下，会把源码编译成ELF(The Executable and Linking Format)文件。使用readelf工具可以读取ELF文件的信息。</p>
+<pre><code>ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              DYN (Shared object file)
+  Machine:                           Advanced Micro Devices X86-64
+  Version:                           0x1
+  Entry point address:               0x1040
+  Start of program headers:          64 (bytes into file)
+  Start of section headers:          14608 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           56 (bytes)
+  Number of program headers:         13
+  Size of section headers:           64 (bytes)
+  Number of section headers:         29
+  Section header string table index: 28
+</code></pre>
+<p>上面是ELF文件的头文件结构。ELF里面并没有包含关于页表的信息，其中主要包含了程序和数据等，程序中所有涉及的地址均是虚拟地址。进一步研究，操作系统运行一个程序的过程。  </p>
+<p>以下是个人理解。<br />
+存储分为内存和外存，内存一般是那种内存条，外存一般是硬盘，而上述的汇编指令的虚拟地址页都是在内存中某个位置。程序编译完成后以二进制的形式存储在硬盘内。硬盘的读写需要用文件系统管理，比较早的文件系统有FAT32，暂且不谈。当我们要运行某个程序了，操作系统会把把程序加载进内存。这里用到一个关键的寄存器satp，xv6手册中如是写道。</p>
+<blockquote>
+<p>To tell a CPU to use a page table, the kernel must write the physical address of the root pagetable page into the <strong>satp</strong> register.   </p>
+</blockquote>
+<p>在riscv-privileged手册当中有描述satp寄存器。 </p>
+<blockquote>
+<p><strong>Supervisor Address Translation and Protection (satp) Register</strong><br />
+This register holds the physical page number (PPN) of the root page table</p>
+</blockquote>
+<p>硬件下固化了xv6手册当中所描述的三级页表，具体可能也可以通过某些寄存器进行其他配置，satp寄存器指三级页表的根页表的物理页。在任何用户进程启动的时候，或者操作系统开始运行的时候的系统进程启动时候，都会写一个物理页地址到satp寄存器当中，这样在这个进程运行的时候，所有的虚拟地址均会被硬件翻译成对应的物理页地址。操作系统启动的时候物理页可能是从磁盘中直接加载的，如果是新启动的用户态的进程，则要操作系统分配空闲的物理页，构造成三级页表，再用内嵌汇编把根物理叶地址写到satp寄存器当中。这样我们写的用户程序就能使用虚拟地址了。</p>
 
 
 
