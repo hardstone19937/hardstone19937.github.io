@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../../%E4%BD%93%E7%B3%BB%E7%9F%A5%E8%AF%86/OS/">
+        <link rel="prev" href="../../%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Vim/">
       
       
-        <link rel="next" href="../../%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/verilog/">
+        <link rel="next" href="../../%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80/bash/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Vim - CS-Diary</title>
+        <title>Verilog - CS-Diary</title>
       
     
     
@@ -61,11 +61,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#vim" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -98,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Vim
+              Verilog
             
           </span>
         </div>
@@ -271,19 +266,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -297,7 +290,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             工具使用
@@ -308,19 +301,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/Vim/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -329,7 +313,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -346,17 +329,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -370,7 +355,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             硬件开发
@@ -381,10 +366,17 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/verilog/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -393,6 +385,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -506,8 +499,6 @@
   
   
   
-    
-  
   
 </nav>
                   </div>
@@ -522,12 +513,9 @@
                   
 
 
-<h1 id="vim">Vim</h1>
-<blockquote>
-<p>《太空漫游2001》中，古猿将骨头抛向空中欢呼的瞬间，骨头变成了太空中的空间站。二者本质并没有什么不同不是吗？古猿用骨来制作工具，捕获猎物，人类使用空间站去探索宇宙，在巨大的智慧(假设存在)下，人类和古猿并无二致，沉浸在使用自己的小智慧所创造的工具的喜悦中。  </p>
-<p>计算机的学习很多时候是在学习新的工具，工具种类繁多，如果要求深入理解所有工具的底层那是需要耗费巨大的功夫的，很多时候都是边学边用，把玩一个黑盒子那样去尝试，在使用的过程中逐渐理解本质。</p>
-</blockquote>
-<p>Vim是Vi的升级，gVim用于图形化界面的情况（有Windows版本，但是用起来感觉差些意思，不如Linux平台）。NeoVim和Vim的设计观念有些不同，可能更像Vscode一些？笔者并没有用过NeoVim不作评价，它使用Lua语言配置而不是Vim原生的Vimscript。  </p>
+  <h1>Verilog</h1>
+
+
 
 
 
