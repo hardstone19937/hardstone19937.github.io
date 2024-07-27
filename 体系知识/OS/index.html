@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.29">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.76a95c52.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
       
       
 
@@ -333,6 +333,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="xv6的启动流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      导引文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -456,6 +471,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/STM32/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    把玩STM32
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../%E7%A1%AC%E4%BB%B6%E5%BC%80%E5%8F%91/verilog/" class="md-nav__link">
         
   
@@ -523,7 +559,7 @@
         
   
   <span class="md-ellipsis">
-    Verilog
+    Bash
   </span>
   
 
@@ -626,6 +662,21 @@
       xv6的启动流程
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="xv6的启动流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      导引文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -770,6 +821,52 @@ This register holds the physical page number (PPN) of the root page table</p>
 </blockquote>
 <p>硬件下固化了xv6手册当中所描述的三级页表，具体可能也可以通过某些寄存器进行其他配置，satp寄存器指三级页表的根页表的物理页。在任何用户进程启动的时候，或者操作系统开始运行的时候的系统进程启动时候，都会写一个物理页地址到satp寄存器当中，这样在这个进程运行的时候，所有的虚拟地址均会被硬件翻译成对应的物理页地址。操作系统启动的时候物理页可能是从磁盘中直接加载的，如果是新启动的用户态的进程，则要操作系统分配空闲的物理页，构造成三级页表，再用内嵌汇编把根物理叶地址写到satp寄存器当中。这样我们写的用户程序就能使用虚拟地址了。</p>
 <h2 id="xv6_1">xv6的启动流程</h2>
+<h3 id="_3">导引文件</h3>
+<p>在内核当中，有一个entry.S文件，目的是用汇编跳转运行start()函数。为了能够让entry.S放在最开始执行，这里有一个kernel.ld的连接脚本（loader?），通过连接脚本的编排，使得entry.S的位置在RAM开始的位置，也就是0x80000000。  </p>
+<ul>
+<li>在汇编程序段当中有一些指令并不是真正的汇编指令，而是伪指令，这些指令会交给汇编器来处理，转换成真正的汇编指令。主要是为了方便程序段的书写。</li>
+</ul>
+<p>在entry.S文件当中，有两个标签<code>_entry</code>和<code>spin</code>，其中<code>spin</code>标签是一个死循环。在<code>_entry</code>当中，使用了CSR寄存器之一的mhartid获取了运行当前代码段的硬件线程id。然后给这个对应的hart(硬件线程)开辟了对应的栈空间。接着调用<code>call</code>命令，跳转到<code>start()</code>函数所在的地址，此处的<code>call</code>应当是汇编伪指令，RISC-V下应该使用<code>jal/jalr</code>等指令。</p>
+<ul>
+<li>使用过编译器的同学都知道，汇编是可以调用其他文件包括C文件的函数接口的。这里就是从entry.S跳转到start.c里面的start()函数的入口。</li>
+</ul>
+<p>接下来我们来看start.c文件。这里涉及到一个汇编伪指令<code>mret</code>，这个指令的作用如下。</p>
+<blockquote>
+<p>An MRET or SRET instruction is used to return from a trap in M-mode or S-mode respectively.（risc-v特权指令手册）</p>
+</blockquote>
+<p><code>mret</code>指令的作用是从M特权陷阱当中返回。具体来讲，这个伪指令的具体动作包括：
+1. 特权模式修改为xPP位段所装载的特权模式。
+2. xIE位段的值修改为xPIE。
+3. xIE位段的值设置位1。
+4. xPP位段设置位最低支持的特权模式，如果xPP不是M，xRET会设置MPRV=0。</p>
+<p>从这一系列动作可以看出。M的特权&gt;S的特权&gt;U的特权。调用RET会降低特权模式，因为xPP段会被硬件清零。这体现了硬件上的权限管理。</p>
+<p>回到<code>start()</code>函数中，我们可以看到首先设置了<code>m_status</code>寄存器当中的xPP位段，把其中特权模式设置为S。然后，它往<code>mepc</code>（Machine exception program counter register.）寄存器里写入内核的<code>main</code>函数的地址。其余动作。</p>
+<ol>
+<li>
+<p>关闭虚拟地址寻址。<code>satp</code>寄存器设置寻址模式，设置为0，其mod字段也为0，表示直接的物理地址寻址。</p>
+</li>
+<li>
+<p>设置<code>medeleg</code>和<code>mideleg</code>寄存器，授予S模式全部的陷阱和异常异常。</p>
+</li>
+<li>
+<p>设置<code>sie</code>寄存器，使能S模式外设，时钟，软件中断。</p>
+</li>
+<li>
+<p>设置<code>pmpaddr0</code>和<code>pmpcfg</code>寄存器，使得S模式能够访问所有的地址空间</p>
+</li>
+<li>
+<p>如下</p>
+</li>
+</ol>
+<p>调用了<code>timerinit</code>函数。在<code>timerinit</code>函数当中设置一些关于时钟中断的寄存器。</p>
+<p>首先计算当前硬件线程的CLINT中断地址，然后将配置时钟的数据，写到某个数据区域当中，再把数据区域的指针记录到特权模式的临时寄存器<code>mscratch</code>当中，方便后续再<code>timervec</code>程序段当中使用。</p>
+<p>设置<code>mtvec</code>寄存器，配置陷阱中断基地址。指向<code>timervec</code>程序段。在这个程序段当中，使用<code>mscratch</code>寄存器当中的数据，根据设置的时间间隔，设置下一个时钟中断的时机，安排S模式的软件中断，在时钟中断服务函数之后，这里使用了<code>sip</code>寄存器( Supervisor interrupt-pending register)。返回。</p>
+<p>然后使能当前硬件线程全局中断，使能机器中断。</p>
+<ol>
+<li>最后把硬件线程id保存在这个cpu的tp寄存器当中。</li>
+</ol>
+<p>接下来就是最上面提到的<code>mret</code>了，从当前特权陷阱中返回，硬件自动切换特权模式从M到S，而且触发硬件自动恢复现场的特性，把先前写在<code>mepc</code>寄存器中<code>main</code>函数的地址，赋值给<code>pc</code>寄存器。</p>
+<p>至此，程序以特权模式S，或者说内核态，运行<code>kernel</code>。</p>
 
 
 
