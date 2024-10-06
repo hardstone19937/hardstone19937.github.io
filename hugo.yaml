@@ -1,0 +1,16 @@
+baseURL: https://example.org/
+languageCode: en-us
+title: Hardstone's Blog
+theme: ["PaperMod"]
+
+params:
+  homeInfoParams:
+    Title: Hi! 👋
+    Content: Welcome to my blog.
+  socialIcons: # optional
+    - name: "Github"
+      url: "https://github.com/hardstone19937"
+    - name: "QQ"
+      url: "http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=A7SWz1FrHMpUs1aNoz9NhmTj_umLOfL-&authKey=9QS8C9LZbismY%2F%2FhdX3p6R%2BoHcfpHj2Pncbf68%2BRDAHuVbmjSSKekJSU%2BThMcGuz&noverify=0&group_code=970200550"
+    - name: "Codeforces"
+      url: "https://codeforces.com/profile/hardstone"
