@@ -1,6 +1,5 @@
 ---
 title: "Batch脚本考古"
-weight: 3
 ---
 # Batch
 `云云：batch脚本已经死了`  
